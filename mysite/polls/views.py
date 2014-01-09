@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from polls.models import Poll
 # Create your views here.
@@ -8,8 +8,9 @@ def index(request):
     context = {'latest_poll_list': latest_poll_list}
     return render(request, 'polls/index.html', context)
 
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
+def detail(request, poll_id):
+    poll = get_object_or_404(Poll, pk = poll_id)
+    return render(request, 'polls/detail.html', {'poll': poll})
 
 def results(request, question_id):
     return HttpResponse("You're looking at results from %s" % question_id)
