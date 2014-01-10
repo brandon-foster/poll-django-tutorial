@@ -2,8 +2,19 @@ import datetime
 
 from django.utils import timezone
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 
 from polls.models import Poll
+
+# factory method to create polls
+def create_poll(question, days):
+    """
+    Creates a poll with the given 'question' published the given number of
+    'days' offset to now (negative for polls published in the past,
+    positive for polls that have yet to be published).
+    """
+    return Poll.objects.create(question=question,
+                               pub_date=timezone.now() + datetime.timedelta(days=days))
 
 class PollMethodTests(TestCase):
     
